@@ -1,0 +1,112 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dragZoneContainer {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: white;
+  border: 1px dashed gainsboro;
+  overflow: auto;
+}
+.textPanel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imgContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.imgContainer > li {
+  list-style-type: none;
+}
+.imgPanelsss {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+}
+
+.thumbsContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* margin-top: 16px; */
+  width: 100%;
+  height: 100%;
+}
+.thumb {
+  position: relative;
+  display: inline-flex;
+  border-radius: 2;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.thumbInner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+.img {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+.trashPanel {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  border-top: 5px solid rgba(236, 231, 231, 0.561);
+  border-right: 5px solid rgba(236, 231, 231, 0.561);
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid transparent;
+  cursor: pointer;
+}
