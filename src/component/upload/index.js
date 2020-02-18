@@ -9,6 +9,7 @@ import { useStyles } from "./style";
 import TabPanel from "../../action/tabPanel";
 import { useDropzone } from "react-dropzone";
 import RenderImage from "../render/images";
+import RenderVideo from "../render/videos";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -17,10 +18,12 @@ TabPanel.propTypes = {
 };
 
 var valueUrl = [];
+var valueVideoUrl = [];
+var stateClick = 0;
 
 const Upload = () => {
   const classes = useStyles();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
 
   // useEffect(
@@ -31,18 +34,35 @@ const Upload = () => {
   //   [files]
   // );
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
-    onDrop: acceptedFiles => {
-      setFiles(
-        acceptedFiles.map(file =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          })
-        )
-      );
-    }
-  });
+  const { getRootProps, getInputProps } = useDropzone(
+    value === 1
+      ? {
+          accept: "image/*",
+          onDrop: acceptedFiles => {
+            setFiles(
+              acceptedFiles.map(file =>
+                Object.assign(file, {
+                  preview: URL.createObjectURL(file)
+                })
+              )
+            );
+            stateClick = 1;
+          }
+        }
+      : {
+          accept: "video/*",
+          onDrop: acceptedFiles => {
+            setFiles(
+              acceptedFiles.map(file =>
+                Object.assign(file, {
+                  preview: URL.createObjectURL(file)
+                })
+              )
+            );
+            stateClick = 1;
+          }
+        }
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -50,6 +70,11 @@ const Upload = () => {
 
   const plusFiles = e => {
     valueUrl = [...valueUrl, ...e];
+    stateClick = stateClick = 0;
+  };
+  const plusFilesVideo = e => {
+    valueVideoUrl = [...valueVideoUrl, ...e];
+    stateClick = stateClick = 0;
   };
 
   const a11yProps = index => {
@@ -83,7 +108,22 @@ const Upload = () => {
           />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}></TabPanel>
+      <TabPanel value={value} index={0}>
+        <div {...getRootProps()} className="dragZoneContainer">
+          <input {...getInputProps()} accept="video/*" />
+          <p className="textPanel">
+            Drag 'n' drop some files here, or click to select files
+          </p>
+          <aside className="thumbsContainer">
+            <RenderVideo
+              value={files}
+              plusFiles={plusFilesVideo}
+              oldFile={valueVideoUrl}
+              stateClick={stateClick}
+            />
+          </aside>
+        </div>
+      </TabPanel>
       <TabPanel value={value} index={1}>
         <div {...getRootProps()} className="dragZoneContainer">
           <input {...getInputProps()} accept="image/*" />
@@ -95,6 +135,7 @@ const Upload = () => {
               value={files}
               plusFiles={plusFiles}
               oldFile={valueUrl}
+              stateClick={stateClick}
             />
           </aside>
         </div>
