@@ -1,6 +1,8 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import Trash from "../assetes/trash.svg";
 import "../../App.css";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
 
 const RenderImage = forwardRef((props, ref) => {
   const [value, setValue] = useState([]);
@@ -18,18 +20,48 @@ const RenderImage = forwardRef((props, ref) => {
     props.plusFiles(props.value);
   }, [props.value]);
 
-  const thumbs = value.map((file, index) => {
-    return (
-      <div className="thumb" key={`${file.name}${index}`}>
-        <img src={Trash} width="25" className="trashPanel" />
-        <div className="thumbInner">
-          <img src={file.preview} className="img" />
-        </div>
-      </div>
-    );
-  });
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setValue(arrayMove(value, oldIndex, newIndex));
+  };
 
-  return <div>{value.length === 0 ? "" : <div>{thumbs}</div>}</div>;
+  console.log("value ", value);
+  return (
+    <div>
+      {value.length === 0 ? (
+        ""
+      ) : (
+        <div>
+          <SortableList axis="xy" items={value} onSortEnd={onSortEnd} />
+        </div>
+      )}
+    </div>
+  );
+});
+
+const SortableItem = SortableElement(({ value, index }) => (
+  <div className="thumb" key={`${value.name}${index}`}>
+    <img src={Trash} width="25" className="trashPanel" />
+    <div className="thumbInner">
+      <img src={value.preview} className="img" />
+    </div>
+  </div>
+));
+
+const SortableList = SortableContainer(({ items }) => {
+  console.log("items ==> ", items);
+  return (
+    <div>
+      {items.map((file, index) => {
+        return (
+          <SortableItem
+            key={`${file.name}${index}`}
+            index={index}
+            value={file}
+          />
+        );
+      })}
+    </div>
+  );
 });
 
 export default RenderImage;

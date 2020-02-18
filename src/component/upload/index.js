@@ -7,7 +7,6 @@ import VideoLibraryRoundedIcon from "@material-ui/icons/VideoLibraryRounded";
 import PhotoLibraryRoundedIcon from "@material-ui/icons/PhotoLibraryRounded";
 import { useStyles } from "./style";
 import TabPanel from "../../action/tabPanel";
-
 import { useDropzone } from "react-dropzone";
 import RenderImage from "../render/images";
 
@@ -24,13 +23,13 @@ const Upload = () => {
   const [value, setValue] = useState(1);
   const [files, setFiles] = useState([]);
 
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
+  // useEffect(
+  //   () => () => {
+  //     // Make sure to revoke the data uris to avoid memory leaks
+  //     files.forEach(file => URL.revokeObjectURL(file.preview));
+  //   },
+  //   [files]
+  // );
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",

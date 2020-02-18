@@ -16,4 +16,16 @@ export const useStyles = makeStyles(theme => ({
     alignItems: "center",
     position: "relative"
   },
+  paneStyle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "solid 1px #ddd",
+    backgroundColor: "#f0f0f0"
+  },
+  textStyle: {
+    fontSize: "32px",
+    fontWeight: "bold",
+    color: "#aaa"
+  }
 }));
