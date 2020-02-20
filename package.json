@@ -11,9 +11,11 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.9",
     "array-move": "^2.2.1",
+    "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "fine-uploader": "^5.16.2",
+    "get-blob-duration": "^1.1.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "react": "^16.12.0",
@@ -26,7 +28,8 @@
     "react-fine-uploader": "^1.1.1",
     "react-scripts": "3.3.1",
     "react-sortable-hoc": "^1.11.0",
-    "react-sortable-pane": "^1.1.0"
+    "react-sortable-pane": "^1.1.0",
+    "videojs-youtube": "^2.6.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -48,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "video.js": "^7.6.6"
   }
 }

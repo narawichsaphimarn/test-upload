@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import VideoLibraryRoundedIcon from "@material-ui/icons/VideoLibraryRounded";
 import PhotoLibraryRoundedIcon from "@material-ui/icons/PhotoLibraryRounded";
+import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 import { useStyles } from "./style";
 import TabPanel from "../../action/tabPanel";
 import { useDropzone } from "react-dropzone";
-import RenderImage from "../render/images";
-import RenderVideo from "../render/videos";
+import Toolbar from "@material-ui/core/Toolbar";
+import { Button } from "antd";
+import Media from "../render/media";
+import "../../App.css";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -19,50 +21,27 @@ TabPanel.propTypes = {
 
 var valueUrl = [];
 var valueVideoUrl = [];
-var stateClick = 0;
 
 const Upload = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
+  const [click, setClick] = useState(false);
+  const [input, setInput] = useState("");
 
-  // useEffect(
-  //   () => () => {
-  //     // Make sure to revoke the data uris to avoid memory leaks
-  //     files.forEach(file => URL.revokeObjectURL(file.preview));
-  //   },
-  //   [files]
-  // );
-
-  const { getRootProps, getInputProps } = useDropzone(
-    value === 1
-      ? {
-          accept: "image/*",
-          onDrop: acceptedFiles => {
-            setFiles(
-              acceptedFiles.map(file =>
-                Object.assign(file, {
-                  preview: URL.createObjectURL(file)
-                })
-              )
-            );
-            stateClick = 1;
-          }
-        }
-      : {
-          accept: "video/*",
-          onDrop: acceptedFiles => {
-            setFiles(
-              acceptedFiles.map(file =>
-                Object.assign(file, {
-                  preview: URL.createObjectURL(file)
-                })
-              )
-            );
-            stateClick = 1;
-          }
-        }
-  );
+  const { getInputProps, open } = useDropzone({
+    accept: "video/*",
+    onDrop: acceptedFiles => {
+      setValue(1);
+      setFiles(
+        acceptedFiles.map(file =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })
+        )
+      );
+    }
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -70,11 +49,11 @@ const Upload = () => {
 
   const plusFiles = e => {
     valueUrl = [...valueUrl, ...e];
-    stateClick = stateClick = 0;
+    setClick(false);
   };
   const plusFilesVideo = e => {
     valueVideoUrl = [...valueVideoUrl, ...e];
-    stateClick = stateClick = 0;
+    setClick(false);
   };
 
   const a11yProps = index => {
@@ -84,60 +63,56 @@ const Upload = () => {
     };
   };
 
+  console.log("files ==> ", files);
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons="on"
-          indicatorColor="secondary"
-          textColor="secondary"
-          aria-label="scrollable force tabs example"
-        >
-          <Tab
-            label="Video"
-            icon={<VideoLibraryRoundedIcon />}
-            {...a11yProps(0)}
-          />
-          <Tab
-            label="Image"
-            icon={<PhotoLibraryRoundedIcon />}
-            {...a11yProps(1)}
-          />
-        </Tabs>
+        <Toolbar>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="on"
+            indicatorColor="secondary"
+            textColor="secondary"
+            aria-label="scrollable force tabs example"
+          >
+            <Tab
+              label="Upload"
+              icon={<PublishRoundedIcon />}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label="Media"
+              icon={<PhotoLibraryRoundedIcon />}
+              {...a11yProps(1)}
+            />
+          </Tabs>
+        </Toolbar>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <div {...getRootProps()} className="dragZoneContainer">
-          <input {...getInputProps()} accept="video/*" />
-          <p className="textPanel">
-            Drag 'n' drop some files here, or click to select files
-          </p>
-          <aside className="thumbsContainer">
-            <RenderVideo
-              value={files}
-              plusFiles={plusFilesVideo}
-              oldFile={valueVideoUrl}
-              stateClick={stateClick}
-            />
-          </aside>
+        <div className="dragZoneContainer">
+          <input {...getInputProps()} />
+          <Button
+            type="primary"
+            ghost
+            shape="round"
+            icon="download"
+            size="large"
+            onClick={open}
+          >
+            Upload file
+          </Button>
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <div {...getRootProps()} className="dragZoneContainer">
-          <input {...getInputProps()} accept="image/*" />
-          <p className="textPanel">
-            Drag 'n' drop some files here, or click to select files
-          </p>
-          <aside className="thumbsContainer">
-            <RenderImage
-              value={files}
-              plusFiles={plusFiles}
-              oldFile={valueUrl}
-              stateClick={stateClick}
-            />
-          </aside>
+        <div className="mediaContainer">
+          <Media
+            files={files}
+            stateTab={value => {
+              setValue(value);
+            }}
+          />
         </div>
       </TabPanel>
     </div>

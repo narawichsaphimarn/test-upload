@@ -5,50 +5,62 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 
 const RenderImage = forwardRef((props, ref) => {
+  console.log("props ==> ", props);
   const [value, setValue] = useState([]);
+  const pValue = props.value;
   useEffect(() => {
-    console.log("props.value ==> ", props.value);
-    console.log("props.oldFile ==> ", props.oldFile);
     const fileOld = props.oldFile;
     const fileNew = props.value;
-    if (fileOld.length === 0) {
+    const click = props.stateClick;
+    if (fileOld.length === 0 && click === true) {
       setValue(props.value ? props.value : "");
+      props.plusFiles(props.value);
     } else {
-      var newData = [...fileOld, ...fileNew];
-      setValue(props.value ? newData : "");
+      if (click === true) {
+        var newData = [...fileOld, ...fileNew];
+        setValue(props.value ? newData : "");
+        props.plusFiles(props.value);
+      } else {
+        setValue(props.value ? fileOld : "");
+      }
     }
-    props.plusFiles(props.value);
-  }, [props.value]);
+  }, [pValue]);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setValue(arrayMove(value, oldIndex, newIndex));
   };
 
-  console.log("value ", value);
   return (
     <div>
       {value.length === 0 ? (
         ""
       ) : (
         <div>
-          <SortableList axis="xy" items={value} onSortEnd={onSortEnd} />
+          <SortableList
+            axis="xy"
+            items={value}
+            onSortEnd={onSortEnd}
+            transitionDuration={600}
+          />
         </div>
       )}
     </div>
   );
 });
 
-const SortableItem = SortableElement(({ value, index }) => (
-  <div className="thumb" key={`${value.name}${index}`}>
-    <img src={Trash} width="25" className="trashPanel" />
-    <div className="thumbInner">
-      <img src={value.preview} className="img" />
+const SortableItem = SortableElement(({ value, index }) => {
+  console.log("value ==> ", typeof value);
+  return (
+    <div className="thumb" key={`${value.name}${index}`}>
+      <img src={Trash} width="25" className="trashPanel" alt="Trash" />
+      <div className="thumbInner">
+        <img src={value.preview} className="img" alt={value.preview} />
+      </div>
     </div>
-  </div>
-));
+  );
+});
 
 const SortableList = SortableContainer(({ items }) => {
-  console.log("items ==> ", items);
   return (
     <div>
       {items.map((file, index) => {
