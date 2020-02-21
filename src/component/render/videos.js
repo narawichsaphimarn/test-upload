@@ -58,18 +58,12 @@ const SortableItem = SortableElement(({ value, index }) => {
       <img src={Trash} width="25" className="trashPanel" alt="Trash" />
       <div className="thumbInner">
         {value ? (
-          // value.preview !== String ? (
-          //   <video className="video" controls>
-          //     <source src={file.preview} type={value.type} />
-          //   </video>
-          // ) : (
           <VideoPlay
             key={value.name + value.type + index}
             urlVideo={value.preview}
             type={value.type}
           />
         ) : (
-          // )
           false
         )}
       </div>

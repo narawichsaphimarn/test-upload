@@ -30,7 +30,7 @@ const Upload = () => {
   const [input, setInput] = useState("");
 
   const { getInputProps, open } = useDropzone({
-    accept: "video/*",
+    // accept: "video/*",
     onDrop: acceptedFiles => {
       setValue(1);
       setFiles(
@@ -114,6 +114,7 @@ const Upload = () => {
             }}
           />
         </div>
+        {/* <div className="detailContainer"></div> */}
       </TabPanel>
     </div>
   );
