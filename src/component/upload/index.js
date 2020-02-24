@@ -106,15 +106,17 @@ const Upload = () => {
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <div className="mediaContainer">
-          <Media
-            files={files}
-            stateTab={value => {
-              setValue(value);
-            }}
-          />
+        <div className="m-Container">
+          <div className="mediaContainer">
+            <Media
+              files={files}
+              stateTab={value => {
+                setValue(value);
+              }}
+            />
+          </div>
+          <div className="detailContainer"></div>
         </div>
-        {/* <div className="detailContainer"></div> */}
       </TabPanel>
     </div>
   );

@@ -1,5 +1,4 @@
 import axios from "axios";
-import getBlobDuration from "get-blob-duration";
 
 const token =
   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMyMzQyYjZmLTc5MmYtNGIxMy1hZDAzLTYyYjUxNTg4NjBmOCIsInJvbGUiOjEsImVtYWlsIjoiaGFuYWZlZTQxNEBnbWFpbC5jb20iLCJpc190dXRvciI6ZmFsc2UsInR5cGUiOjIsImlhdCI6MTU4MTU2ODIzMSwiZXhwIjoxNTgyODY0MjMxfQ.i_Qvh_VLAKIEqWveFlyZucQ1RahvDV8739rpYSx-jBzdC32r8s_JwrZ5b-PrqwCMCrOrG25Zpk-JODEDoDb_JI2BKDdoFyzJSQSH_70vOjUVOOm5Oa_oLk0ObrXCJqXoYrzT9B6crrQnN2lKmIzhBD8ZnLGByqEmUeYz2je5KNM";
@@ -127,7 +126,7 @@ export const checkStatus = (id, signal, callback) => {
   axios
     .post(
       "http://192.168.1.58:3000/api/v2/media/update",
-      { video_id: id },
+      { id: id },
       {
         cancelToken: signal.token,
         headers: {

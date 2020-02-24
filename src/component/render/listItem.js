@@ -38,34 +38,26 @@ const ListItem = props => {
 
   useEffect(() => {
     if (typeof props.item.status === "undefined") {
-      // console.log("IN If props.item.status");
       if (
         typeof mediaFile.status === "undefined" ||
         mediaFile.status === "prepending"
       ) {
-        console.log("IN If ==> If props.item.status", " Data :: ", data);
         setMediaFile({ ...data, type: props.item.type });
       } else {
-        console.log("Gooo Else");
         setMediaFile({ ...mediaFile });
       }
     } else {
-      console.log("props.item :: ", props.item);
       setMediaFile(props.item);
     }
   }, [props.item]);
 
   useEffect(() => {
-    console.log("useEffect of mediaFile :: ", mediaFile);
-    console.log("useEffect of status :: ", status);
     if (typeof mediaFile.status !== "undefined") {
       if (mediaFile.type.split("/")[0] === "video") {
         switch (status) {
           case "prepending":
             videoUploadFlow(props.item, signal, res => {
-              console.log("res :: ", res);
               if (res.code === 200) {
-                console.log("mediaFile :: ", mediaFile);
                 setPendingPayload(res.result[0].clientPayload);
                 setStatus(res.result[1][0].status);
                 setMediaFile({
@@ -101,13 +93,10 @@ const ListItem = props => {
             break;
 
           case "Queued":
-            console.table(mediaFile);
-            console.table("mediaFile.video_id :: ", mediaFile.video_id);
             checkProcessStatus(mediaFile.id);
             break;
 
           case "Processing":
-            console.table("mediaFile.video_id :: ", mediaFile.video_id);
             checkProcessStatus(mediaFile.id);
             break;
 
@@ -119,7 +108,6 @@ const ListItem = props => {
             break;
         }
       } else {
-        console.log("Image");
         imageUploadFlow(
           props.item,
           progressEvent => {
@@ -129,7 +117,6 @@ const ListItem = props => {
           },
           signal,
           res => {
-            console.log("res :: ", res);
             if (res.code === 200) {
               console.log("mediaFile :: ", mediaFile);
               console.log("res ==> ", res);
@@ -141,12 +128,10 @@ const ListItem = props => {
   }, [mediaFile.status]);
 
   const checkProcessStatus = id => {
-    console.log("id ==> ", id);
     clearInterval(checkStatusQueue);
     checkStatusQueue = setInterval(() => {
       checkStatus(id, signal, res => {
         if (res.status === 200) {
-          console.log("res :: ", res);
           const { result } = res.data;
           setStatus(result[0].status);
           setMediaFile({
