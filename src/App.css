@@ -57,21 +57,19 @@
 .mediaContainer {
   width: 70%;
   height: 100%;
-  min-height: 500px;
+  min-height: 550px;
   position: relative;
   background-color: white;
-  border: 0.5px solid rgb(66, 160, 71);
-  border-radius: 10px;
+  border-right: 1px solid rgb(66, 160, 71);
   float: left;
 }
 .detailContainer {
   display: inline-block;
   width: 30%;
   height: auto;
-  min-height: 500px;
-  border-radius: 10px;
-  background-color: white;
-  border: 0.5px solid rgb(66, 160, 71);
+  min-height: 550px;
+  /* border-radius: 10px; */
+  background-color: rgb(231, 231, 231);
   border-left: none;
 }
 .listPanel {
