@@ -12,7 +12,9 @@ const RenderImage = forwardRef((props, ref) => {
   }, [pValue]);
 
   return (
-    <img src="https://img.icons8.com/cotton/150/000000/stack-of-photos.png" />
+    <div className="imgPanel">
+      <img src="https://img.icons8.com/cotton/150/000000/stack-of-photos.png" />
+    </div>
   );
 });
 

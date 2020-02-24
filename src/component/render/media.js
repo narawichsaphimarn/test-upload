@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useState, Fragment } from "react";
 import ListItem from "./listItemUpload";
 import ListItemRender from "./listItemRender";
+import { Button } from "antd";
 
 import { data } from "../../action/mockData";
 
@@ -9,8 +10,8 @@ const Media = forwardRef((props, ref) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    console.log("data ==> ", data);
-    setList(data.result[0].items);
+    setList([...list, ...data.result[0].items]);
+    console.log("list ==> ", list);
   }, []);
 
   return (
@@ -27,6 +28,14 @@ const Media = forwardRef((props, ref) => {
           return <ListItemRender key={`file-list${index}`} item={item} />;
         })}
       </ul>
+      <div>
+        <Button
+          style={{ width: "200px", marginLeft: "calc((100% - 200px) / 2)" }}
+          size="large"
+        >
+          View more
+        </Button>
+      </div>
     </Fragment>
   );
 });
