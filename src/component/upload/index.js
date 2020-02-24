@@ -19,18 +19,12 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-var valueUrl = [];
-var valueVideoUrl = [];
-
 const Upload = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
-  const [click, setClick] = useState(false);
-  const [input, setInput] = useState("");
 
   const { getInputProps, open } = useDropzone({
-    // accept: "video/*",
     onDrop: acceptedFiles => {
       setValue(1);
       setFiles(
@@ -47,15 +41,6 @@ const Upload = () => {
     setValue(newValue);
   };
 
-  const plusFiles = e => {
-    valueUrl = [...valueUrl, ...e];
-    setClick(false);
-  };
-  const plusFilesVideo = e => {
-    valueVideoUrl = [...valueVideoUrl, ...e];
-    setClick(false);
-  };
-
   const a11yProps = index => {
     return {
       id: `scrollable-force-tab-${index}`,
@@ -63,7 +48,6 @@ const Upload = () => {
     };
   };
 
-  console.log("files ==> ", files);
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">

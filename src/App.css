@@ -79,9 +79,9 @@
   /* border: 0.5px solid whitesmoke; */
   position: relative;
   width: 150px;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 .load {
   position: absolute;

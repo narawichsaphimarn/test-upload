@@ -31,7 +31,7 @@ const ListItem = props => {
   const [percentCompleted, setPercentCompleted] = useState(0);
   let checkStatusQueue = createRef();
 
-  if (status !== "ready") {
+  if (status !== "ready" || status !== "prepending") {
     window.onbeforeunload = function() {
       return "Data will be lost if you leave the page, are you sure?";
     };
