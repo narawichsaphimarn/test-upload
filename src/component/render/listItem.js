@@ -6,6 +6,7 @@ import {
   checkStatus,
   imageUploadFlow
 } from "../../action/fetch";
+import { Spin, Alert } from "antd";
 
 const data = {
   id: "",
@@ -29,6 +30,12 @@ const ListItem = props => {
   const [status, setStatus] = useState("prepending");
   const [percentCompleted, setPercentCompleted] = useState(0);
   let checkStatusQueue = createRef();
+
+  if (status !== "ready") {
+    window.onbeforeunload = function() {
+      return "Data will be lost if you leave the page, are you sure?";
+    };
+  }
 
   useEffect(() => {
     return () => {
@@ -146,16 +153,51 @@ const ListItem = props => {
   return (
     <li className="listPanel">
       <div className="imgPanel">
-        <img src="https://img.icons8.com/cotton/64/000000/stack-of-photos.png" />
+        <img src="https://img.icons8.com/cotton/150/000000/stack-of-photos.png" />
       </div>
-      <div className="load">
-        <progress
-          id="file"
-          value={percentCompleted}
-          max="100"
-          style={{ height: "100%" }}
-        ></progress>
-      </div>
+      {typeof mediaFile.status !== "undefined" ? (
+        <div>
+          {mediaFile.type.split("/")[0] === "video" ? (
+            <div>
+              {status === "prepending" ? (
+                <Spin
+                  size="large"
+                  className="spin"
+                  tip="Check status..."
+                ></Spin>
+              ) : (
+                ""
+              )}
+              {status === "pending" ? (
+                <div className="load">
+                  <progress
+                    id="file"
+                    value={percentCompleted}
+                    max="100"
+                    style={{ height: "100%" }}
+                  ></progress>
+                </div>
+              ) : (
+                ""
+              )}
+              {status === "Queued" ? (
+                <Spin size="large" className="spin" tip="Queued..."></Spin>
+              ) : (
+                ""
+              )}
+              {status === "Processing" ? (
+                <Spin size="large" className="spin" tip="Processing..."></Spin>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      ) : (
+        ""
+      )}
     </li>
   );
 };
