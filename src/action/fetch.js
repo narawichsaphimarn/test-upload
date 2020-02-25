@@ -16,7 +16,7 @@ export const imageUploadFlow = async (
   formData.append("type_file", file.type);
   try {
     const res = await axios.post(
-      "http://192.168.1.58:3000/api/v2/media",
+      "http://127.0.0.1:9001/api/v2/media",
       formData,
       {
         cancelToken: signal.token,
@@ -47,7 +47,7 @@ export const videoUploadFlow = async (file, signal, callback) => {
   formData.append("type_file", file.type);
   try {
     const res = await axios.post(
-      "http://192.168.1.58:3000/api/v2/media",
+      "http://127.0.0.1:9001/api/v2/media",
       formData,
       {
         cancelToken: signal.token,
@@ -55,7 +55,6 @@ export const videoUploadFlow = async (file, signal, callback) => {
           let percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
           );
-          // console.log(`progressEvent : index == ${index}`, percentCompleted);
         },
         headers: {
           Authorization: `Bearer ${token}`,

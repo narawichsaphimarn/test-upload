@@ -22,19 +22,21 @@ const Media = forwardRef((props, ref) => {
             <ListItem key={`file-list${index}`} item={item} index={index} />
           );
         })}
-      </ul>
-      <ul>
         {list.map((item, index) => {
           return <ListItemRender key={`file-list${index}`} item={item} />;
         })}
       </ul>
       <div>
-        <Button
-          style={{ width: "200px", marginLeft: "calc((100% - 200px) / 2)" }}
-          size="large"
-        >
-          View more
-        </Button>
+        {list.length !== 0 ? (
+          <Button
+            style={{ width: "200px", marginLeft: "calc((100% - 200px) / 2)" }}
+            size="large"
+          >
+            View more
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
     </Fragment>
   );

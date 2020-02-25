@@ -31,7 +31,7 @@ const ListItem = props => {
   const [percentCompleted, setPercentCompleted] = useState(0);
   let checkStatusQueue = createRef();
 
-  if (status !== "ready" || status !== "prepending") {
+  if (status !== "ready" || status === "prepending") {
     window.onbeforeunload = function() {
       return "Data will be lost if you leave the page, are you sure?";
     };
@@ -124,6 +124,9 @@ const ListItem = props => {
           },
           signal,
           res => {
+            //Test
+            setStatus("ready");
+            //
             if (res.code === 200) {
               console.log("mediaFile :: ", mediaFile);
               console.log("res ==> ", res);
@@ -149,6 +152,8 @@ const ListItem = props => {
       });
     }, 10 * 1000);
   };
+
+  console.log("status ==> ", status);
 
   return (
     <li className="listPanel">
@@ -192,7 +197,20 @@ const ListItem = props => {
               )}
             </div>
           ) : (
-            ""
+            <div>
+              {status === "prepending" ? (
+                <div className="load">
+                  <progress
+                    id="file"
+                    value={percentCompleted}
+                    max="100"
+                    style={{ height: "100%" }}
+                  ></progress>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           )}
         </div>
       ) : (
